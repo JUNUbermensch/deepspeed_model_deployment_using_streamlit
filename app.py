@@ -6,8 +6,8 @@ def fix_state_dict(state_dict):
     fixed_state_dict = {key.replace('module.', ''): value for key, value in state_dict.items()}
     return fixed_state_dict
 
-model_name_or_path = "/data/suhyub/summarization/resources/t5_mss_small_torch"
-checkpoint = torch.load("/data/suhyub/summarization/checkpoint.ckpt")
+model_name_or_path = "eenzeenee/t5-base-korean-summarization"
+checkpoint = torch.load("./checkpoint.ckpt")
 fixed_state_dict = fix_state_dict(checkpoint)
 tokenizer = AutoTokenizer.from_pretrained(model_name_or_path)
 model = AutoModelForSeq2SeqLM.from_pretrained(model_name_or_path)
