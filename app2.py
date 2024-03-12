@@ -7,7 +7,7 @@ from torch.cuda.amp import autocast
 from transformers import T5ForConditionalGeneration
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
-model_path = '/data/suhyub/summarization/clone/deepspeed_model_deployment_using_streamlit/t5_mss_small_torch'
+model_path = './t5_mss_small_torch'
 
 def fix_state_dict(state_dict):
     return {key.replace('module.', ''): value for key, value in state_dict.items()}
