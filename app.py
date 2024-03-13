@@ -1,12 +1,15 @@
 import streamlit as st, torch, gc, torch.quantization, torch.nn.utils.prune as prune
 from transformers import AutoTokenizer, T5ForConditionalGeneration
 
-device, model_path = "cpu", 'wisenut-nlp-team/t5-fid-new'
+device, model_path = "cpu", 'eenzeenee/t5-small-korean-summarization'
+model, tokenizer = None, None
 
 def load_model():
     global model, tokenizer
     tokenizer = AutoTokenizer.from_pretrained(model_path)
     model = T5ForConditionalGeneration.from_pretrained(model_path)
+    #if (checkpoint_path := "./checkpoint.ckpt"):
+    #    model.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(checkpoint_path, map_location=device).items()}, strict=False)
     model.to(device)
     model = torch.quantization.quantize_dynamic(model, {torch.nn.Linear}, dtype=torch.qint8)
     parameters_to_prune = ((model.encoder.block[0].layer[1].layer_norm, 'weight'),)
