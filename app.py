@@ -1,7 +1,7 @@
 import streamlit as st, torch, gc, torch.quantization, torch.nn.utils.prune as prune
 from transformers import AutoTokenizer, T5ForConditionalGeneration
 
-device, model_path = "cpu", './t5_mss_small_torch'
+device, model_path = "cpu", 'eenzeenee/t5-base-korean-summarization'
 
 def load_model():
     global model, tokenizer
@@ -28,13 +28,12 @@ def unload_model():
     torch.cuda.empty_cache() # If using GPU
     gc.collect()
 
+tokenizer, model = load_model()
 st.title("Text Summarization with Pruned T5")
 text = st.text_area("Enter text:", "Paste your text here...", height=300)
 if st.button("Summarize"):
-    tokenizer, model = load_model()
     summary = summarize(text)
     st.subheader("Summary")
     st.write(summary)
-    unload_model()
     
 # streamlit run app.py server.port 8501 --server.address 0.0.0.0
